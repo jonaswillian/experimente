@@ -90,6 +90,8 @@ root.geometry("1320x1100")
 filtro_oculos = tk.BooleanVar(root, value=False)
 filtro_bigode = tk.BooleanVar(root, value=False)
 filtro_cabelo = tk.BooleanVar(root, value=False)
+filtro_cabelo2 = tk.BooleanVar(root, value=False)
+filtro_cabelo_comprido = tk.BooleanVar(root, value=False)
 filtro_barba = tk.BooleanVar(root, value=False)
 filtro_chifre = tk.BooleanVar(root, value=False)
 filtro_chapeu = tk.BooleanVar(root, value=False)
@@ -102,11 +104,13 @@ filtro_olhos_grandes = tk.BooleanVar(root, value=False)
 oculos_img = load_png("filtros/oculos.png")
 bigode_img = load_png("filtros/bigode.png")
 cabelo_img = load_png("filtros/cabelo.png")
+cabelo_img2 = load_png("filtros/cabelo2.png")
+cabelo_img3 = load_png("filtros/cabelo_comprido.png")
 barba_img = load_png("filtros/barba.png")
 chifre_img = load_png("filtros/chifre.png")
 chapeu_img = load_png("filtros/chapeu.png")
 tatuagem_img = load_png("filtros/tatuagem.png")
-dog_nose_img = load_png("filtros/dog_nose.jpg")
+dog_nose_img = load_png("filtros/dog_nose.png")
 
 filtro_nariz_cachorro = tk.BooleanVar(root, value=False)
 # Inicializa MediaPipe
@@ -189,13 +193,23 @@ def update_video():
                 overlay_image_alpha(frame, resized[:, :, :3], (nx - 110, ny - 15), resized[:, :, 3])
 
             if filtro_cabelo.get():
-                largura = x2 - x1 + 150
+                largura = x2 - x1 + 100
                 resized = cv2.resize(cabelo_img, (largura, 120))
-                overlay_image_alpha(frame, resized[:, :, :3], (x1 - 75, ty - 140), resized[:, :, 3])
+                overlay_image_alpha(frame, resized[:, :, :3], (x1 - 50, ty - 80), resized[:, :, 3])
+
+            if filtro_cabelo2.get():
+                largura = x2 - x1 + 145
+                resized = cv2.resize(cabelo_img2, (largura, 250))
+                overlay_image_alpha(frame, resized[:, :, :3], (x1 - 60, ty - 130), resized[:, :, 3])
+
+            if filtro_cabelo_comprido.get():
+                largura = x2 - x1 + 300
+                resized = cv2.resize(cabelo_img3, (largura, 550))
+                overlay_image_alpha(frame, resized[:, :, :3], (x1 - 60, ty - 130), resized[:, :, 3])
 
             if filtro_chifre.get():
-                resized = cv2.resize(chifre_img, (100, 100))
-                overlay_image_alpha(frame, resized[:, :, :3], (nx - 50, ty - 170), resized[:, :, 3])
+                resized = cv2.resize(chifre_img, (250, 100))
+                overlay_image_alpha(frame, resized[:, :, :3], (nx - 110, ty - 170), resized[:, :, 3])
 
             if filtro_chapeu.get():
                 resized = cv2.resize(chapeu_img, (380, 250))
@@ -234,7 +248,7 @@ def update_video():
 
             if filtro_nariz_cachorro.get():
                 # Calcular largura com base na distância entre os olhos
-                largura = x2 - x1 + 50  # Ajuste conforme necessário
+                largura = x2 - x1 - 30  # Ajuste conforme necessário
                 altura = int(largura * dog_nose_img.shape[0] / dog_nose_img.shape[1])
                 resized = cv2.resize(dog_nose_img, (largura, altura))
                 # Posicionar o nariz abaixo do ponto do nariz
@@ -259,6 +273,8 @@ painel.pack(pady=10)
 ttk.Checkbutton(painel, text="Óculos", variable=filtro_oculos).pack(side=tk.LEFT, padx=10)
 ttk.Checkbutton(painel, text="Bigode", variable=filtro_bigode).pack(side=tk.LEFT, padx=10)
 ttk.Checkbutton(painel, text="Cabelo", variable=filtro_cabelo).pack(side=tk.LEFT, padx=10)
+ttk.Checkbutton(painel, text="Cabelo 2", variable=filtro_cabelo2).pack(side=tk.LEFT, padx=10)
+ttk.Checkbutton(painel, text="Cabelo Comprido", variable=filtro_cabelo_comprido).pack(side=tk.LEFT, padx=10)
 ttk.Checkbutton(painel, text="Barba", variable=filtro_barba).pack(side=tk.LEFT, padx=10)
 ttk.Checkbutton(painel, text="Chifre", variable=filtro_chifre).pack(side=tk.LEFT, padx=10)
 ttk.Checkbutton(painel, text="Chapéu", variable=filtro_chapeu).pack(side=tk.LEFT, padx=10)
